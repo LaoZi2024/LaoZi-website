@@ -167,3 +167,45 @@ with open(expanded_html_file_path, "w") as file:
     file.write(expanded_html_content)
 
 expanded_html_file_path
+
+
+utton {
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+
+
+<!-- Stripe.js script -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<button id="checkoutButton">Pay for Membership</button>
+
+<script>
+  var stripe = Stripe('YOUR_STRIPE_PUBLIC_KEY');
+
+  document.getElementById('checkoutButton').addEventListener('click', function () {
+    fetch('/create-checkout-session', {
+      method: 'POST',
+    })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (sessionId) {
+      return stripe.redirectToCheckout({ sessionId: sessionId });
+    })
+    .then(function (result) {
+      if (result.error) {
+        alert(result.error.message);
+      }
+    });
+  });
+</script>
+
+
